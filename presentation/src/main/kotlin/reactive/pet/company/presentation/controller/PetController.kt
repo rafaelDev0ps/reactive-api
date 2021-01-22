@@ -2,6 +2,7 @@ package reactive.pet.company.presentation.controller
 
 import com.google.gson.Gson
 import reactive.pet.company.application.dto.CreatePetDTO
+import reactive.pet.company.application.dto.DeletePetDTO
 import reactive.pet.company.application.dto.UpdatePetDTO
 import reactive.pet.company.application.services.PetServiceInterface
 import javax.enterprise.context.ApplicationScoped
@@ -28,12 +29,11 @@ class PetController @Inject constructor(
     }
 
     override fun deletePet(message: String): String {
-        val uuid = message
-        val petDeleted = service.removePet(uuid)
+        val dto = gson.fromJson(message, DeletePetDTO::class.java)
+        val petDeleted = service.removePet(dto.id)
         if (petDeleted) {
             return "ok"
         }
         return ""
     }
-
 }
